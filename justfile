@@ -8,3 +8,6 @@ plot-scan:
 
 plot-total:
     uv run main.py "TOTAL TIME"
+
+serve:
+    uv run python -m http.server 8000 -d plots
