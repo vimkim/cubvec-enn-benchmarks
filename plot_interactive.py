@@ -33,7 +33,7 @@ CUBVEC_DIR = Path("cubvec-bench")
 PGVEC_DIR = Path("pgvector-bench")
 STAT_TO_USE = "avg"  # set to "min", "max" or "median" if needed
 
-DIMENSIONS = [256, 768, 1536]  # the three plots we want
+DIMENSIONS = [256, 512, 768, 1024, 1536]  # the three plots we want
 OUTPUT_TEMPLATE = "plots/plot_dim_{dim}_{metric}.html"
 
 # Regex to capture parts of the filename

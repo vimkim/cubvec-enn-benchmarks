@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Performance Plots Comparison</title>
+    <title>ENN CUBVEC vs. PGVector Performance Comparison Plots</title>
 
     <!-- —————————————————————  STYLES  ————————————————————— -->
     <style>
@@ -148,7 +148,7 @@
 
   <body>
     <div class="container">
-      <h1>Performance Plots Comparison</h1>
+      <h1>ENN CUBVEC vs. PGVector Performance Comparison Plots</h1>
 
       <!-- ============ Dimension 256 ============ -->
       <div class="dimension-section">
@@ -217,6 +217,73 @@
         </div>
       </div>
 
+      <!-- ============ Dimension 512 ============ -->
+      <div class="dimension-section">
+        <h2 class="dimension-title">Dimension 512</h2>
+        <div class="plots-grid">
+          <!-- —— SELECT FETCH —— -->
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-fetch">SELECT&nbsp;FETCH</span>
+            </div>
+
+            <!-- Thumbnail -->
+            <img
+              class="plot-thumb"
+              src="plots/plot_dim_512_SELECT_FETCH.png"
+              alt="Dimension 512 – Select Fetch"
+              onclick="openModal(this)"
+            />
+
+            <!-- Interactive overlay -->
+            <iframe
+              class="plot-frame"
+              src="plots/plot_dim_512_SELECT_FETCH.html"
+              title="Dimension 512 – Select Fetch"
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <!-- —— SCAN TIME —— -->
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-time">SCAN&nbsp;TIME</span>
+            </div>
+            <img
+              class="plot-thumb"
+              src="plots/plot_dim_512_SCAN_TIME.png"
+              alt="Dimension 512 – Scan Time"
+              onclick="openModal(this)"
+            />
+            <iframe
+              class="plot-frame"
+              src="plots/plot_dim_512_SCAN_TIME.html"
+              title="Dimension 512 – Scan Time"
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <!-- —— TOTAL TIME —— -->
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type total-time">TOTAL&nbsp;TIME</span>
+            </div>
+            <img
+              class="plot-thumb"
+              src="plots/plot_dim_512_TOTAL_TIME.png"
+              alt="Dimension 512 – Total Time"
+              onclick="openModal(this)"
+            />
+            <iframe
+              class="plot-frame"
+              src="plots/plot_dim_512_TOTAL_TIME.html"
+              title="Dimension 512 – Total Time"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
       <!-- ============ Dimension 768 ============ -->
       <div class="dimension-section">
         <h2 class="dimension-title">Dimension 768</h2>
@@ -274,6 +341,73 @@
               class="plot-frame"
               src="plots/plot_dim_768_TOTAL_TIME.html"
               title="Dimension 768 – Total Time"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Dimension 1024 ============ -->
+      <div class="dimension-section">
+        <h2 class="dimension-title">Dimension 1024</h2>
+        <div class="plots-grid">
+          <!-- —— SELECT FETCH —— -->
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-fetch">SELECT&nbsp;FETCH</span>
+            </div>
+
+            <!-- Thumbnail -->
+            <img
+              class="plot-thumb"
+              src="plots/plot_dim_1024_SELECT_FETCH.png"
+              alt="Dimension 1024 – Select Fetch"
+              onclick="openModal(this)"
+            />
+
+            <!-- Interactive overlay -->
+            <iframe
+              class="plot-frame"
+              src="plots/plot_dim_1024_SELECT_FETCH.html"
+              title="Dimension 1024 – Select Fetch"
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <!-- —— SCAN TIME —— -->
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-time">SCAN&nbsp;TIME</span>
+            </div>
+            <img
+              class="plot-thumb"
+              src="plots/plot_dim_1024_SCAN_TIME.png"
+              alt="Dimension 1024 – Scan Time"
+              onclick="openModal(this)"
+            />
+            <iframe
+              class="plot-frame"
+              src="plots/plot_dim_1024_SCAN_TIME.html"
+              title="Dimension 1024 – Scan Time"
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <!-- —— TOTAL TIME —— -->
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type total-time">TOTAL&nbsp;TIME</span>
+            </div>
+            <img
+              class="plot-thumb"
+              src="plots/plot_dim_1024_TOTAL_TIME.png"
+              alt="Dimension 1024 – Total Time"
+              onclick="openModal(this)"
+            />
+            <iframe
+              class="plot-frame"
+              src="plots/plot_dim_1024_TOTAL_TIME.html"
+              title="Dimension 1024 – Total Time"
               loading="lazy"
             ></iframe>
           </div>
