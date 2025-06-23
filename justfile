@@ -9,5 +9,16 @@ plot-scan:
 plot-total:
     uv run main.py "TOTAL TIME"
 
+ploti-all: ploti-fetch ploti-total ploti-scan
+
+ploti-fetch:
+    uv run plot_interactive.py "SELECT FETCH"
+
+ploti-scan:
+    uv run plot_interactive.py "SCAN TIME"
+
+ploti-total:
+    uv run plot_interactive.py "TOTAL TIME"
+
 serve:
     uv run python -m http.server 8000 -d plots
