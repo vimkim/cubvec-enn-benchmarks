@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Performance Plots Comparison</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f5f5f5;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+      }
+
+      .dimension-section {
+        margin-bottom: 40px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .dimension-title {
+        font-size: 24px;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+
+      .plots-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .plot-container {
+        text-align: center;
+        background: #fafafa;
+        padding: 15px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+      }
+
+      .plot-container img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: transform 0.2s ease;
+      }
+
+      .plot-container img:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+      }
+
+      .plot-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #34495e;
+        font-size: 16px;
+      }
+
+      .metric-type {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .scan-fetch {
+        background-color: #e8f5e8;
+        color: #2d5a2d;
+      }
+      .scan-time {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+      .total-time {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      /* Modal for full-size images */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .modal-content {
+        position: relative;
+        margin: auto;
+        display: block;
+        max-width: 90%;
+        max-height: 90%;
+        margin-top: 5%;
+      }
+
+      .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .close:hover {
+        color: #bbb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Performance Plots Comparison</h1>
+
+      <!-- Dimension 256 -->
+      <div class="dimension-section">
+        <h2 class="dimension-title">Dimension 256</h2>
+        <div class="plots-grid">
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-fetch">SCAN FETCH</span>
+            </div>
+            <img
+              src="plot_dim_256_SCAN_FETCH.png"
+              alt="Dimension 256 - Scan Fetch"
+              onclick="openModal(this)"
+            />
+          </div>
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-time">SCAN TIME</span>
+            </div>
+            <img
+              src="plot_dim_256_SCAN_TIME.png"
+              alt="Dimension 256 - Scan Time"
+              onclick="openModal(this)"
+            />
+          </div>
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type total-time">TOTAL TIME</span>
+            </div>
+            <img
+              src="plot_dim_256_TOTAL_TIME.png"
+              alt="Dimension 256 - Total Time"
+              onclick="openModal(this)"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Dimension 768 -->
+      <div class="dimension-section">
+        <h2 class="dimension-title">Dimension 768</h2>
+        <div class="plots-grid">
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-fetch">SCAN FETCH</span>
+            </div>
+            <img
+              src="plot_dim_768_SCAN_FETCH.png"
+              alt="Dimension 768 - Scan Fetch"
+              onclick="openModal(this)"
+            />
+          </div>
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-time">SCAN TIME</span>
+            </div>
+            <img
+              src="plot_dim_768_SCAN_TIME.png"
+              alt="Dimension 768 - Scan Time"
+              onclick="openModal(this)"
+            />
+          </div>
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type total-time">TOTAL TIME</span>
+            </div>
+            <img
+              src="plot_dim_768_TOTAL_TIME.png"
+              alt="Dimension 768 - Total Time"
+              onclick="openModal(this)"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Dimension 1536 -->
+      <div class="dimension-section">
+        <h2 class="dimension-title">Dimension 1536</h2>
+        <div class="plots-grid">
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-fetch">SCAN FETCH</span>
+            </div>
+            <img
+              src="plot_dim_1536_SCAN_FETCH.png"
+              alt="Dimension 1536 - Scan Fetch"
+              onclick="openModal(this)"
+            />
+          </div>
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type scan-time">SCAN TIME</span>
+            </div>
+            <img
+              src="plot_dim_1536_SCAN_TIME.png"
+              alt="Dimension 1536 - Scan Time"
+              onclick="openModal(this)"
+            />
+          </div>
+          <div class="plot-container">
+            <div class="plot-title">
+              <span class="metric-type total-time">TOTAL TIME</span>
+            </div>
+            <img
+              src="plot_dim_1536_TOTAL_TIME.png"
+              alt="Dimension 1536 - Total Time"
+              onclick="openModal(this)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for full-size images -->
+    <div id="imageModal" class="modal">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <img class="modal-content" id="modalImage" />
+    </div>
+
+    <script>
+      function openModal(img) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+      }
+
+      function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+      }
+
+      // Close modal when clicking outside the image
+      window.onclick = function (event) {
+        const modal = document.getElementById("imageModal");
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      // Close modal with Escape key
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          closeModal();
+        }
+      });
+    </script>
+  </body>
+</html>
