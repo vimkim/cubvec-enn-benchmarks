@@ -21,4 +21,5 @@ ploti-total:
     uv run plot_interactive.py "TOTAL TIME"
 
 serve:
-    uv run python -m http.server 8000 -d plots
+    # uv run -m http.server 8000 -d .
+    miniserve .

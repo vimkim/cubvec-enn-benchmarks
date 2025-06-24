@@ -3,14 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ENN CUBVEC vs. PGVector Performance Comparison Plots</title>
+    <title>ENN CUBVEC vs. PGVector — Performance Plots</title>
 
     <!-- —————————————————————  STYLES  ————————————————————— -->
     <style>
+      :root {
+        --bg: #f5f5f5;
+        --card-bg: #ffffff;
+        --border: #dddddd;
+        --shadow: rgba(0, 0, 0, 0.08);
+        --text: #34495e;
+        --accent: #3498db;
+      }
+      html {
+        box-sizing: border-box;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+
       body {
+        margin: 0;
+        padding: 20px;
         font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: #f5f5f5;
+        background: var(--bg);
+        color: var(--text);
       }
 
       .container {
@@ -20,56 +39,51 @@
 
       h1 {
         text-align: center;
-        color: #333;
-        margin-bottom: 30px;
+        margin-bottom: 2rem;
       }
 
+      /* —— Section / Card —— */
       .dimension-section {
-        margin-bottom: 40px;
-        background: #fff;
-        padding: 20px;
+        margin-bottom: 2.5rem;
+        background: var(--card-bg);
+        padding: 1.25rem;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px var(--shadow);
+        border: 1px solid var(--border);
       }
-
       .dimension-title {
-        font-size: 24px;
-        color: #2c3e50;
-        margin-bottom: 20px;
-        border-bottom: 2px solid #3498db;
-        padding-bottom: 10px;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--accent);
       }
 
+      /* —— Grid —— */
       .plots-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.25rem;
       }
 
-      /* —— Plot container —— */
+      /* —— Individual Plot —— */
       .plot-container {
-        position: relative; /* allows iframe overlay */
         text-align: center;
         background: #fafafa;
-        padding: 15px;
-        border: 1px solid #ddd;
+        padding: 1rem;
+        border: 1px solid var(--border);
         border-radius: 6px;
       }
-
       .plot-title {
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #34495e;
-        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
       }
-
       .metric-type {
         display: inline-block;
-        padding: 4px 8px;
+        padding: 0.25rem 0.5rem;
         border-radius: 4px;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
       }
       .scan-fetch {
         background: #e8f5e8;
@@ -84,135 +98,84 @@
         color: #721c24;
       }
 
-      /* —— PNG thumbnail —— */
+      /* —— Thumbnail —— */
       .plot-thumb {
         display: block;
         width: 100%;
         height: auto;
-        border: 1px solid #ccc;
+        border: 1px solid #cccccc;
         border-radius: 4px;
-        transition: transform 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
       }
       .plot-thumb:hover {
-        transform: scale(1.05);
-        cursor: pointer;
-      }
-
-      /* —— Interactive iframe —— */
-      .plot-frame {
-        position: absolute;
-        inset: 0; /* top:0 right:0 bottom:0 left:0 */
-        width: 100%;
-        height: 100%;
-        border: none;
-        border-radius: 4px;
-        z-index: 10; /* above PNG */
-        opacity: 0; /* hidden until loaded */
-        transition: opacity 0.35s ease;
-      }
-      .plot-frame.loaded {
-        opacity: 1;
-      }
-
-      /* —— Modal for full-size PNG (optional) —— */
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-      }
-      .modal-content {
-        position: relative;
-        display: block;
-        margin: 5% auto;
-        max-width: 90%;
-        max-height: 90%;
-      }
-      .close {
-        position: absolute;
-        top: 15px;
-        right: 35px;
-        color: #f1f1f1;
-        font-size: 40px;
-        font-weight: bold;
-        cursor: pointer;
-      }
-      .close:hover {
-        color: #bbb;
+        transform: scale(1.03);
+        box-shadow: 0 4px 8px var(--shadow);
       }
     </style>
   </head>
 
   <body>
     <div class="container">
-      <h1>ENN CUBVEC vs. PGVector Performance Comparison Plots</h1>
+      <h1>ENN CUBVEC vs. PGVector — Performance Comparison</h1>
 
       <!-- ============ Dimension 256 ============ -->
       <div class="dimension-section">
         <h2 class="dimension-title">Dimension 256</h2>
         <div class="plots-grid">
-          <!-- —— SELECT FETCH —— -->
+          <!-- SELECT FETCH -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-fetch">SELECT&nbsp;FETCH</span>
             </div>
-
-            <!-- Thumbnail -->
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_256_SELECT_FETCH.png"
-              alt="Dimension 256 – Select Fetch"
-              onclick="openModal(this)"
-            />
-
-            <!-- Interactive overlay -->
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_256_SELECT_FETCH.html"
-              title="Dimension 256 – Select Fetch"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_256_SELECT_FETCH.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_256_SELECT_FETCH.png"
+                alt="Dim 256 — Select Fetch"
+              />
+            </a>
           </div>
 
-          <!-- —— SCAN TIME —— -->
+          <!-- SCAN TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-time">SCAN&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_256_SCAN_TIME.png"
-              alt="Dimension 256 – Scan Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_256_SCAN_TIME.html"
-              title="Dimension 256 – Scan Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_256_SCAN_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_256_SCAN_TIME.png"
+                alt="Dim 256 — Scan Time"
+              />
+            </a>
           </div>
 
-          <!-- —— TOTAL TIME —— -->
+          <!-- TOTAL TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type total-time">TOTAL&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_256_TOTAL_TIME.png"
-              alt="Dimension 256 – Total Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_256_TOTAL_TIME.html"
-              title="Dimension 256 – Total Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_256_TOTAL_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_256_TOTAL_TIME.png"
+                alt="Dim 256 — Total Time"
+              />
+            </a>
           </div>
         </div>
       </div>
@@ -221,65 +184,58 @@
       <div class="dimension-section">
         <h2 class="dimension-title">Dimension 512</h2>
         <div class="plots-grid">
-          <!-- —— SELECT FETCH —— -->
+          <!-- SELECT FETCH -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-fetch">SELECT&nbsp;FETCH</span>
             </div>
-
-            <!-- Thumbnail -->
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_512_SELECT_FETCH.png"
-              alt="Dimension 512 – Select Fetch"
-              onclick="openModal(this)"
-            />
-
-            <!-- Interactive overlay -->
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_512_SELECT_FETCH.html"
-              title="Dimension 512 – Select Fetch"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_512_SELECT_FETCH.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_512_SELECT_FETCH.png"
+                alt="Dim 512 — Select Fetch"
+              />
+            </a>
           </div>
 
-          <!-- —— SCAN TIME —— -->
+          <!-- SCAN TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-time">SCAN&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_512_SCAN_TIME.png"
-              alt="Dimension 512 – Scan Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_512_SCAN_TIME.html"
-              title="Dimension 512 – Scan Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_512_SCAN_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_512_SCAN_TIME.png"
+                alt="Dim 512 — Scan Time"
+              />
+            </a>
           </div>
 
-          <!-- —— TOTAL TIME —— -->
+          <!-- TOTAL TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type total-time">TOTAL&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_512_TOTAL_TIME.png"
-              alt="Dimension 512 – Total Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_512_TOTAL_TIME.html"
-              title="Dimension 512 – Total Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_512_TOTAL_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_512_TOTAL_TIME.png"
+                alt="Dim 512 — Total Time"
+              />
+            </a>
           </div>
         </div>
       </div>
@@ -288,61 +244,58 @@
       <div class="dimension-section">
         <h2 class="dimension-title">Dimension 768</h2>
         <div class="plots-grid">
-          <!-- SELECT FETCH -->
+          <!-- SELECT FETCH -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-fetch">SELECT&nbsp;FETCH</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_768_SELECT_FETCH.png"
-              alt="Dimension 768 – Select Fetch"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_768_SELECT_FETCH.html"
-              title="Dimension 768 – Select Fetch"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_768_SELECT_FETCH.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_768_SELECT_FETCH.png"
+                alt="Dim 768 — Select Fetch"
+              />
+            </a>
           </div>
 
-          <!-- SCAN TIME -->
+          <!-- SCAN TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-time">SCAN&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_768_SCAN_TIME.png"
-              alt="Dimension 768 – Scan Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_768_SCAN_TIME.html"
-              title="Dimension 768 – Scan Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_768_SCAN_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_768_SCAN_TIME.png"
+                alt="Dim 768 — Scan Time"
+              />
+            </a>
           </div>
 
-          <!-- TOTAL TIME -->
+          <!-- TOTAL TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type total-time">TOTAL&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_768_TOTAL_TIME.png"
-              alt="Dimension 768 – Total Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_768_TOTAL_TIME.html"
-              title="Dimension 768 – Total Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_768_TOTAL_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_768_TOTAL_TIME.png"
+                alt="Dim 768 — Total Time"
+              />
+            </a>
           </div>
         </div>
       </div>
@@ -351,65 +304,58 @@
       <div class="dimension-section">
         <h2 class="dimension-title">Dimension 1024</h2>
         <div class="plots-grid">
-          <!-- —— SELECT FETCH —— -->
+          <!-- SELECT FETCH -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-fetch">SELECT&nbsp;FETCH</span>
             </div>
-
-            <!-- Thumbnail -->
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_1024_SELECT_FETCH.png"
-              alt="Dimension 1024 – Select Fetch"
-              onclick="openModal(this)"
-            />
-
-            <!-- Interactive overlay -->
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_1024_SELECT_FETCH.html"
-              title="Dimension 1024 – Select Fetch"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_1024_SELECT_FETCH.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_1024_SELECT_FETCH.png"
+                alt="Dim 1024 — Select Fetch"
+              />
+            </a>
           </div>
 
-          <!-- —— SCAN TIME —— -->
+          <!-- SCAN TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-time">SCAN&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_1024_SCAN_TIME.png"
-              alt="Dimension 1024 – Scan Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_1024_SCAN_TIME.html"
-              title="Dimension 1024 – Scan Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_1024_SCAN_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_1024_SCAN_TIME.png"
+                alt="Dim 1024 — Scan Time"
+              />
+            </a>
           </div>
 
-          <!-- —— TOTAL TIME —— -->
+          <!-- TOTAL TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type total-time">TOTAL&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_1024_TOTAL_TIME.png"
-              alt="Dimension 1024 – Total Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_1024_TOTAL_TIME.html"
-              title="Dimension 1024 – Total Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_1024_TOTAL_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_1024_TOTAL_TIME.png"
+                alt="Dim 1024 — Total Time"
+              />
+            </a>
           </div>
         </div>
       </div>
@@ -418,96 +364,61 @@
       <div class="dimension-section">
         <h2 class="dimension-title">Dimension 1536</h2>
         <div class="plots-grid">
-          <!-- SELECT FETCH -->
+          <!-- SELECT FETCH -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-fetch">SELECT&nbsp;FETCH</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_1536_SELECT_FETCH.png"
-              alt="Dimension 1536 – Select Fetch"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_1536_SELECT_FETCH.html"
-              title="Dimension 1536 – Select Fetch"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_1536_SELECT_FETCH.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_1536_SELECT_FETCH.png"
+                alt="Dim 1536 — Select Fetch"
+              />
+            </a>
           </div>
 
-          <!-- SCAN TIME -->
+          <!-- SCAN TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type scan-time">SCAN&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_1536_SCAN_TIME.png"
-              alt="Dimension 1536 – Scan Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_1536_SCAN_TIME.html"
-              title="Dimension 1536 – Scan Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_1536_SCAN_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_1536_SCAN_TIME.png"
+                alt="Dim 1536 — Scan Time"
+              />
+            </a>
           </div>
 
-          <!-- TOTAL TIME -->
+          <!-- TOTAL TIME -->
           <div class="plot-container">
             <div class="plot-title">
               <span class="metric-type total-time">TOTAL&nbsp;TIME</span>
             </div>
-            <img
-              class="plot-thumb"
-              src="plots/plot_dim_1536_TOTAL_TIME.png"
-              alt="Dimension 1536 – Total Time"
-              onclick="openModal(this)"
-            />
-            <iframe
-              class="plot-frame"
-              src="plots/plot_dim_1536_TOTAL_TIME.html"
-              title="Dimension 1536 – Total Time"
-              loading="lazy"
-            ></iframe>
+            <a
+              href="plots/plot_dim_1536_TOTAL_TIME.html"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                class="plot-thumb"
+                src="plots/plot_dim_1536_TOTAL_TIME.png"
+                alt="Dim 1536 — Total Time"
+              />
+            </a>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- —————————————————————  MODAL  ————————————————————— -->
-    <div id="imageModal" class="modal">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <img class="modal-content" id="modalImage" />
-    </div>
-
-    <!-- —————————————————————  SCRIPTS  ————————————————————— -->
-    <script>
-      /* Fade in the iframe once Plotly finishes loading */
-      document.querySelectorAll(".plot-frame").forEach((frame) => {
-        frame.addEventListener("load", () => frame.classList.add("loaded"));
-      });
-
-      /* Optional: PNG full-size modal */
-      function openModal(img) {
-        const modal = document.getElementById("imageModal");
-        const modalImg = document.getElementById("modalImage");
-        modal.style.display = "block";
-        modalImg.src = img.src;
-      }
-      function closeModal() {
-        document.getElementById("imageModal").style.display = "none";
-      }
-      window.onclick = (e) => {
-        const modal = document.getElementById("imageModal");
-        if (e.target === modal) modal.style.display = "none";
-      };
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
-      });
-    </script>
   </body>
 </html>
